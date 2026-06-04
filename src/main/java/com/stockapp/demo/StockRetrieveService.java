@@ -6,13 +6,21 @@ import java.util.List;
 @Service
 public class StockRetrieveService {
     private StockRepository repository;
+    private PriceRepository pricerepository;
 
-    public StockRetrieveService(StockRepository repository){
+    public StockRetrieveService(StockRepository repository,PriceRepository pricerepository){
+        this.pricerepository=pricerepository;
         this.repository=repository;
     }
 
-    public List<stocks> retrieveStocks(String name){
-//        System.out.println(repository.findStockByName(name));
-        return repository.findStockByName(name);
+    public StockResponseDto retrieveStocks(String name){
+        Price obj=pricerepository.findStockByName(name);
+        StockResponseDto responseDto = new StockResponseDto();
+        responseDto.setStockname(name);
+        responseDto.setQuantity(obj.getQuantity());
+        responseDto.setAvgprice(obj.getAvgprice());
+        responseDto.setProfit(obj.getProfit());
+
+        return responseDto;
     }
 }

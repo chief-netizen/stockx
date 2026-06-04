@@ -16,6 +16,15 @@ public class Price {
     private float totalprice;
     private int quantity;
     private float avgprice;
+    private float profit;
+
+    public float getProfit() {
+        return profit;
+    }
+
+    public void setProfit(float profit) {
+        this.profit = profit;
+    }
 
     public float getAvgprice() {
         return avgprice;

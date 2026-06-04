@@ -22,6 +22,7 @@ public class stockAddService {
             obj1.setTotalprice(currentPrice);
             obj1.setQuantity(stocks.getQuantity());
             obj1.setAvgprice(currentPrice/stocks.getQuantity());
+            obj1.setProfit(0);
             priceRepository.save(obj1);
         }
         else{

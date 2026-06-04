@@ -10,5 +10,8 @@ import java.util.List;
 public interface StockRepository extends JpaRepository<stocks,Long> {
 
     @Query("select s from stocks s where s.stockname=:stockname order by date")
-    List<stocks> findStockByName(@Param("stockname")String name);
+    List<stocks> findStockByNameList(@Param("stockname")String name);
+
+    @Query("Select p from stocks p where p.stockname=:stockname")
+    stocks findStockByName(@Param("stockname")String name);
 }
