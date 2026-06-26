@@ -1,11 +1,12 @@
-package com.Chief.stockx.controller;
+package com.stockapp.demo.controller;
 
-import com.Chief.stockx.dto.StockResponseDto;
-import com.Chief.stockx.dto.StockSellDto;
-import com.Chief.stockx.entity.Stocks;
-import com.Chief.stockx.service.StockRetrieveService;
-import com.Chief.stockx.service.StockSellService;
-import com.Chief.stockx.service.stockAddService;
+import com.stockapp.demo.dto.AnalysisResponse;
+import com.stockapp.demo.dto.CreateTransactionRequest;
+import com.stockapp.demo.entity.Transactions;
+import com.stockapp.demo.repository.TransactionRepository;
+import com.stockapp.demo.service.StockRetrieveService;
+import com.stockapp.demo.service.StockSellService;
+import com.stockapp.demo.service.stockAddService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,27 +15,35 @@ public class StockController {
     private stockAddService add;
     private StockRetrieveService retrieve;
     private StockSellService sell;
+    private TransactionRepository rep;
 
 
-    public StockController(stockAddService add,StockRetrieveService retrieve,StockSellService sell){
+    public StockController(stockAddService add,StockRetrieveService retrieve,StockSellService sell,TransactionRepository rep){
         this.add=add;
         this.retrieve=retrieve;
         this.sell=sell;
+        this.rep=rep;
     }
 
     @PostMapping("/buy")
-    public Stocks AddStocks(@RequestBody Stocks values){
+    public Transactions AddStocks(@RequestBody Transactions values){
         return add.addValues(values);
     }
 
     @GetMapping("/{stockname}")
-    public StockResponseDto retrieveStocks(@PathVariable String stockname){
+    public AnalysisResponse retrieveStocks(@PathVariable String stockname){
         return retrieve.retrieveStocks(stockname);
     }
 
     @PostMapping("/{stockname}/sell")
-    public void sellStocks(@PathVariable String stockname,@RequestBody StockSellDto dto){
-        sell.sellStock(stockname,dto.getSellingprice(),dto.getQuantity());
+    public void sellStocks(@PathVariable String stockname,@RequestBody CreateTransactionRequest dto){
+        Transactions obj=new Transactions();
+        obj.setTicker(stockname);
+        obj.setTransactionType(dto.getType());
+        obj.setQuantity(dto.getQuantity());
+        obj.setUnitPrice(dto.getUnitPrice());
+        rep.save(obj);
+        sell.sellStock(stockname,dto.getUnitPrice(),dto.getQuantity());
     }
 
 

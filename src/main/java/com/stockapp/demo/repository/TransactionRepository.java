@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface StockRepository extends JpaRepository<Transactions,Long> {
+public interface TransactionRepository extends JpaRepository<Transactions,Long> {
 
-    @Query("select s from Stocks s where s.ticker=:ticker order by s.tradeDate")
+    @Query("select s from Transactions s where s.ticker=:ticker order by s.tradeDate")
     List<Transactions> findStockByNameList(@Param("ticker")String ticker);
 
-    @Query("Select p from Stocks p where p.ticker=:ticker")
+    @Query("Select p from Transactions p where p.ticker=:ticker")
     Transactions findByTicker(@Param("ticker")String ticker);
 }

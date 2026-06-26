@@ -8,7 +8,7 @@ import jakarta.transaction.Transactional;
 
 @Entity
 @Transactional
-public class Stocks {
+public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

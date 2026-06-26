@@ -1,43 +1,47 @@
-package com.Chief.stockx.service;
+package com.stockapp.demo.service;
 
-import com.Chief.stockx.entity.Price;
-import com.Chief.stockx.repository.PriceRepository;
-import com.Chief.stockx.repository.StockRepository;
-import com.Chief.stockx.entity.Stocks;
+import com.stockapp.demo.entity.Aggregate;
+import com.stockapp.demo.entity.BuyLot;
+import com.stockapp.demo.entity.Transactions;
+import com.stockapp.demo.repository.AggregateRepository;
+import com.stockapp.demo.repository.BuyLotRepository;
+import com.stockapp.demo.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class StockSellService {
 
-    private StockRepository stockRepository;
-    private PriceRepository priceRepository;
+    private TransactionRepository transactionRepository;
+    private AggregateRepository aggregateRepository;
+    private BuyLotRepository buyLotRepository;
 
-    public StockSellService(StockRepository stockRepository,PriceRepository priceRepository){
-        this.stockRepository=stockRepository;
-        this.priceRepository=priceRepository;
+    public StockSellService(TransactionRepository transactionRepository, AggregateRepository aggregateRepository, BuyLotRepository buyLotRepository){
+        this.transactionRepository = transactionRepository;
+        this.aggregateRepository = aggregateRepository;
+        this.buyLotRepository=buyLotRepository;
     }
 
     public String sellStock(String name,float sellingprice,int quantity){
-        List<Stocks> stockList = stockRepository.findStockByNameList(name);
+        List<BuyLot> stockList = buyLotRepository.findStockByNameList(name);
         float profit=0;
         System.out.println("Quantity = " + quantity);
-        Price obj=priceRepository.findStockByName(name);
-        for(Stocks stock:stockList){
+        Aggregate obj= aggregateRepository.findticker(name);
+        for(BuyLot stock:stockList){
 
-            int availableShares=stock.getQuantity();
+            int availableShares=stock.getRemianingQuantity();
 
             if(quantity<=0){
                 break;
             }
             else{
-                if(stock.getQuantity()>=quantity){
+                if(stock.getRemianingQuantity()>=quantity){
                     float profitPerShare=sellingprice-stock.getUnitPrice();
                     profit=(quantity*(profitPerShare));
-                    availableShares=stock.getQuantity()-quantity;
+                    availableShares=stock.getRemianingQuantity()-quantity;
 
-                    stock.setQuantity(availableShares);
+                    stock.setRemianingQuantity(availableShares);
 
-                    stockRepository.save(stock);
+                    buyLotRepository.save(stock);
 
                     obj.setProfit(profit+obj.getProfit());
                     int remainingInPrice =obj.getQuantity()-quantity;
@@ -47,18 +51,18 @@ public class StockSellService {
                     obj.setTotalprice(totalInPrice);
                     obj.setAvgprice(totalInPrice/remainingInPrice);
                     
-                    priceRepository.save(obj);
+                    aggregateRepository.save(obj);
                     break;
                 }
                 else{
-                    int originalquanity=stock.getQuantity();
+                    int originalquanity=stock.getRemianingQuantity();
 
                     while(availableShares>0 && quantity >0){
                         quantity--;
                         availableShares--;
                     }
                     int sharesold=originalquanity-availableShares;
-                    stock.setQuantity(availableShares);
+                    stock.setRemianingQuantity(availableShares);
 
                     profit=sharesold*(sellingprice-stock.getUnitPrice());
                     obj.setProfit(profit+obj.getProfit());
@@ -72,8 +76,8 @@ public class StockSellService {
                     }else{
                         obj.setAvgprice(0);
                     }
-                    stockRepository.save(stock);
-                    priceRepository.save(obj);
+                    buyLotRepository.save(stock);
+                    aggregateRepository.save(obj);
                 }
             }
 

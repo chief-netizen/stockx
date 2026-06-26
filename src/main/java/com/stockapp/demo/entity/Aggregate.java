@@ -8,11 +8,11 @@ import jakarta.transaction.Transactional;
 
 @Entity
 @Transactional
-public class Price {
+public class Aggregate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String stockname;
+    private String ticker;
     private float totalprice;
     private int quantity;
     private float avgprice;
@@ -42,12 +42,12 @@ public class Price {
         this.quantity = quantity;
     }
 
-    public String getStockname() {
-        return stockname;
+    public String getTicker() {
+        return ticker;
     }
 
-    public void setStockname(String stockname) {
-        this.stockname = stockname;
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
     }
 
     public float getTotalprice() {

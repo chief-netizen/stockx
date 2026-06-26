@@ -7,8 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PriceRepository extends JpaRepository<Aggregate,Long> {
+public interface AggregateRepository extends JpaRepository<Aggregate,Long> {
 
-    @Query("Select p from Price p where p.stockname=:stockname")
-    Aggregate findStockByName(@Param("stockname")String name);
+    @Query("Select a from Aggregate a where a.ticker=:ticker")
+    Aggregate findticker(@Param("ticker")String ticker);
 }

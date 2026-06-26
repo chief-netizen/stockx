@@ -1,7 +1,7 @@
 package com.stockapp.demo.dto;
 
 
-public class TransactionResponse {
+public class AnalysisResponse {
     private long id;
     private String ticker;
 

@@ -1,11 +1,21 @@
 package com.stockapp.demo.dto;
 
-public class StockSellDto {
-    private 
+public class CreateTransactionRequest {
     private String tradeDate;
+    private String ticker;
     private String type;
-    private float unitPrice;
     private int quantity;
+
+    public String getTicker() {
+        return ticker;
+    }
+
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
+    }
+
+    private float unitPrice;
+
 
     public int getQuantity() {
         return quantity;

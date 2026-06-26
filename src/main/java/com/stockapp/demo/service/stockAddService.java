@@ -1,44 +1,55 @@
-package com.Chief.stockx.service;
+package com.stockapp.demo.service;
 
-import com.Chief.stockx.entity.Price;
-import com.Chief.stockx.repository.PriceRepository;
-import com.Chief.stockx.repository.StockRepository;
-import com.Chief.stockx.entity.Stocks;
+import com.stockapp.demo.entity.Aggregate;
+import com.stockapp.demo.entity.BuyLot;
+import com.stockapp.demo.repository.AggregateRepository;
+import com.stockapp.demo.repository.BuyLotRepository;
+import com.stockapp.demo.repository.TransactionRepository;
+import com.stockapp.demo.entity.Transactions;
 import org.springframework.stereotype.Service;
 
 @Service
 public class stockAddService {
-    private StockRepository repository1;
-    private PriceRepository priceRepository;
+    private TransactionRepository repository1;
+    private AggregateRepository aggregateRepository;
+    private BuyLotRepository buyLotRepository;
 
-    public stockAddService(StockRepository repository1, PriceRepository priceRepository){
-        this.priceRepository=priceRepository;
+    public stockAddService(TransactionRepository repository1, AggregateRepository aggregateRepository, BuyLotRepository buyLotRepository){
+        this.aggregateRepository = aggregateRepository;
         this.repository1=repository1;
+        this.buyLotRepository=buyLotRepository;
     }
 
-    public Stocks addValues(Stocks stocks){
-        String stockname=stocks.getTicker();
-        Price priceObj=priceRepository.findStockByName(stockname);
-        if(priceObj==null){
-            float currentPrice=stocks.getQuantity()* stocks.getUnitPrice();
-            Price obj1=new Price();
-            obj1.setStockname(stockname);
+    public Transactions addValues(Transactions transactions){
+        String ticker = transactions.getTicker();
+        Aggregate aggregateObj = aggregateRepository.findticker(ticker);
+        if(aggregateObj ==null){
+            float currentPrice= transactions.getQuantity()* transactions.getUnitPrice();
+            Aggregate obj1=new Aggregate();
+            obj1.setTicker(ticker);
             obj1.setTotalprice(currentPrice);
-            obj1.setQuantity(stocks.getQuantity());
-            obj1.setAvgprice(currentPrice/stocks.getQuantity());
+            obj1.setQuantity(transactions.getQuantity());
+            obj1.setAvgprice(currentPrice/ transactions.getQuantity());
             obj1.setProfit(0);
-            priceRepository.save(obj1);
+            aggregateRepository.save(obj1);
         }
         else{
-            float currentPrice=stocks.getQuantity()* stocks.getUnitPrice();
-            float previousPrice=priceObj.getTotalprice();
-            int previousQuantity=priceObj.getQuantity();
-            int currentQuantity=previousQuantity+ stocks.getQuantity();
-            priceObj.setQuantity(currentQuantity);
-            priceObj.setTotalprice(previousPrice+currentPrice);
-            priceObj.setAvgprice((previousPrice+currentPrice)/currentQuantity);
-            priceRepository.save(priceObj);
+            float currentPrice= transactions.getQuantity()* transactions.getUnitPrice();
+            float previousPrice= aggregateObj.getTotalprice();
+            int previousQuantity= aggregateObj.getQuantity();
+            int currentQuantity=previousQuantity+ transactions.getQuantity();
+            aggregateObj.setQuantity(currentQuantity);
+            aggregateObj.setTotalprice(previousPrice+currentPrice);
+            aggregateObj.setAvgprice((previousPrice+currentPrice)/currentQuantity);
+            aggregateRepository.save(aggregateObj);
         }
-        return repository1.save(stocks);
+        BuyLot buyLotObj=new BuyLot();
+        buyLotObj.setTicker(ticker);
+        buyLotObj.setUnitPrice(transactions.getUnitPrice());
+        buyLotObj.setOriginalQuantity(transactions.getQuantity());
+        buyLotObj.setRemianingQuantity(transactions.getQuantity());
+        buyLotObj.setTradeDate(transactions.getTradeDate());
+        buyLotRepository.save(buyLotObj);
+        return repository1.save(transactions);
     }
 }
