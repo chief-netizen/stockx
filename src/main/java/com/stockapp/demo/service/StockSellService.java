@@ -1,5 +1,9 @@
-package com.stockapp.demo;
+package com.Chief.stockx.service;
 
+import com.Chief.stockx.entity.Price;
+import com.Chief.stockx.repository.PriceRepository;
+import com.Chief.stockx.repository.StockRepository;
+import com.Chief.stockx.entity.Stocks;
 import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
@@ -14,55 +18,61 @@ public class StockSellService {
     }
 
     public String sellStock(String name,float sellingprice,int quantity){
-        List<stocks> stockList = stockRepository.findStockByNameList(name);
+        List<Stocks> stockList = stockRepository.findStockByNameList(name);
         float profit=0;
         System.out.println("Quantity = " + quantity);
-        for(stocks i:stockList){
-            Price obj=priceRepository.findStockByName(name);
-//            System.out.println("Quantity = " + quantity);
-//            System.out.println("Selling Price = " + sellingprice);
-//            System.out.println("Buy Price = " + i.getPrice());
-//            System.out.println("Profit = " + profit);
-            int remaining=i.getQuantity();
+        Price obj=priceRepository.findStockByName(name);
+        for(Stocks stock:stockList){
+
+            int availableShares=stock.getQuantity();
+
             if(quantity<=0){
                 break;
             }
             else{
-                if(i.getQuantity()>=quantity){
-                    profit=(quantity*(sellingprice-i.getPrice()));
-                    remaining=i.getQuantity()-quantity;
-                    i.setQuantity(remaining);
-                    stockRepository.save(i);
+                if(stock.getQuantity()>=quantity){
+                    float profitPerShare=sellingprice-stock.getUnitPrice();
+                    profit=(quantity*(profitPerShare));
+                    availableShares=stock.getQuantity()-quantity;
+
+                    stock.setQuantity(availableShares);
+
+                    stockRepository.save(stock);
+
                     obj.setProfit(profit+obj.getProfit());
                     int remainingInPrice =obj.getQuantity()-quantity;
                     obj.setQuantity(remainingInPrice);
-                    float totalInPrice= obj.getTotalprice()-(quantity*i.getPrice());
+
+                    float totalInPrice= obj.getTotalprice()-(quantity*stock.getUnitPrice());
                     obj.setTotalprice(totalInPrice);
                     obj.setAvgprice(totalInPrice/remainingInPrice);
+                    
                     priceRepository.save(obj);
                     break;
                 }
                 else{
-                    int originalquanity=i.getQuantity();
+                    int originalquanity=stock.getQuantity();
 
-                    while(remaining>0 && quantity >0){
+                    while(availableShares>0 && quantity >0){
                         quantity--;
-                        remaining--;
+                        availableShares--;
                     }
-                    int sharesold=originalquanity-remaining;
-                    i.setQuantity(remaining);
-                    profit=sharesold*(sellingprice-i.getPrice());
+                    int sharesold=originalquanity-availableShares;
+                    stock.setQuantity(availableShares);
+
+                    profit=sharesold*(sellingprice-stock.getUnitPrice());
                     obj.setProfit(profit+obj.getProfit());
                     int remainingInPrice =obj.getQuantity()-sharesold;
                     obj.setQuantity(remainingInPrice);
-                    float totalInPrice= obj.getTotalprice()-(sharesold*i.getPrice());
+                    float totalInPrice= obj.getTotalprice()-(sharesold*stock.getUnitPrice());
                     obj.setTotalprice(totalInPrice);
+
                     if(remainingInPrice > 0){
                         obj.setAvgprice(totalInPrice / remainingInPrice);
                     }else{
                         obj.setAvgprice(0);
                     }
-                    stockRepository.save(i);
+                    stockRepository.save(stock);
                     priceRepository.save(obj);
                 }
             }

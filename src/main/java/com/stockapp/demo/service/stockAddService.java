@@ -1,5 +1,9 @@
-package com.stockapp.demo;
+package com.Chief.stockx.service;
 
+import com.Chief.stockx.entity.Price;
+import com.Chief.stockx.repository.PriceRepository;
+import com.Chief.stockx.repository.StockRepository;
+import com.Chief.stockx.entity.Stocks;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,11 +16,11 @@ public class stockAddService {
         this.repository1=repository1;
     }
 
-    public stocks addValues(stocks stocks){
-        String stockname=stocks.getStockname();
+    public Stocks addValues(Stocks stocks){
+        String stockname=stocks.getTicker();
         Price priceObj=priceRepository.findStockByName(stockname);
         if(priceObj==null){
-            float currentPrice=stocks.getQuantity()* stocks.getPrice();
+            float currentPrice=stocks.getQuantity()* stocks.getUnitPrice();
             Price obj1=new Price();
             obj1.setStockname(stockname);
             obj1.setTotalprice(currentPrice);
@@ -26,7 +30,7 @@ public class stockAddService {
             priceRepository.save(obj1);
         }
         else{
-            float currentPrice=stocks.getQuantity()* stocks.getPrice();
+            float currentPrice=stocks.getQuantity()* stocks.getUnitPrice();
             float previousPrice=priceObj.getTotalprice();
             int previousQuantity=priceObj.getQuantity();
             int currentQuantity=previousQuantity+ stocks.getQuantity();

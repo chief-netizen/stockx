@@ -1,7 +1,10 @@
-package com.stockapp.demo;
+package com.Chief.stockx.service;
 
+import com.Chief.stockx.entity.Price;
+import com.Chief.stockx.repository.PriceRepository;
+import com.Chief.stockx.repository.StockRepository;
+import com.Chief.stockx.dto.StockResponseDto;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class StockRetrieveService {

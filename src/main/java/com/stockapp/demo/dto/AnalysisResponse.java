@@ -1,18 +1,28 @@
-package com.stockapp.demo;
+package com.stockapp.demo.dto;
 
 
-public class StockResponseDto {
-    private String stockname;
+public class TransactionResponse {
+    private long id;
+    private String ticker;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     private int quantity;
     private float avgprice;
     private float profit;
 
-    public String getStockname() {
-        return stockname;
+    public String getTicker() {
+        return ticker;
     }
 
-    public void setStockname(String stockname) {
-        this.stockname = stockname;
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
     }
 
     public int getQuantity() {
