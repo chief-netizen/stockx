@@ -1,10 +1,35 @@
 package com.stockapp.demo.dto;
 
+import java.util.Date;
+import java.util.UUID;
+
 public class CreateTransactionRequest {
-    private String tradeDate;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private Date tradeDate;
     private String ticker;
-    private String type;
-    private int quantity;
+    private float quantity;
+    private String transactiontype;
+    private float unitPrice;
+
+
+
+
+    public String getTransactiontype() {
+        return transactiontype;
+    }
+
+    public void setTransactiontype(String transactiontype) {
+        this.transactiontype = transactiontype;
+    }
 
     public String getTicker() {
         return ticker;
@@ -14,14 +39,14 @@ public class CreateTransactionRequest {
         this.ticker = ticker;
     }
 
-    private float unitPrice;
 
 
-    public int getQuantity() {
+
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
@@ -34,19 +59,13 @@ public class CreateTransactionRequest {
         this.unitPrice = unitPrice;
     }
 
-    public String getTradeDate() {
+    public Date getTradeDate() {
         return tradeDate;
     }
 
-    public void setTradeDate(String tradeDate) {
+    public void setTradeDate(Date tradeDate) {
         this.tradeDate = tradeDate;
     }
 
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 }

@@ -6,6 +6,7 @@ import com.stockapp.demo.entity.Transactions;
 import com.stockapp.demo.repository.AggregateRepository;
 import com.stockapp.demo.repository.BuyLotRepository;
 import com.stockapp.demo.repository.TransactionRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
@@ -21,14 +22,14 @@ public class StockSellService {
         this.buyLotRepository=buyLotRepository;
     }
 
-    public String sellStock(String name,float sellingprice,int quantity){
+    public ResponseEntity<String> sellStock(String name, float sellingprice, float quantity){
         List<BuyLot> stockList = buyLotRepository.findStockByNameList(name);
         float profit=0;
         System.out.println("Quantity = " + quantity);
         Aggregate obj= aggregateRepository.findticker(name);
         for(BuyLot stock:stockList){
 
-            int availableShares=stock.getRemianingQuantity();
+            float availableShares=stock.getRemianingQuantity();
 
             if(quantity<=0){
                 break;
@@ -44,7 +45,7 @@ public class StockSellService {
                     buyLotRepository.save(stock);
 
                     obj.setProfit(profit+obj.getProfit());
-                    int remainingInPrice =obj.getQuantity()-quantity;
+                    float remainingInPrice =obj.getQuantity()-quantity;
                     obj.setQuantity(remainingInPrice);
 
                     float totalInPrice= obj.getTotalprice()-(quantity*stock.getUnitPrice());
@@ -55,18 +56,18 @@ public class StockSellService {
                     break;
                 }
                 else{
-                    int originalquanity=stock.getRemianingQuantity();
+                    float originalquanity=stock.getRemianingQuantity();
 
                     while(availableShares>0 && quantity >0){
                         quantity--;
                         availableShares--;
                     }
-                    int sharesold=originalquanity-availableShares;
+                    float sharesold=originalquanity-availableShares;
                     stock.setRemianingQuantity(availableShares);
 
                     profit=sharesold*(sellingprice-stock.getUnitPrice());
                     obj.setProfit(profit+obj.getProfit());
-                    int remainingInPrice =obj.getQuantity()-sharesold;
+                    float remainingInPrice =obj.getQuantity()-sharesold;
                     obj.setQuantity(remainingInPrice);
                     float totalInPrice= obj.getTotalprice()-(sharesold*stock.getUnitPrice());
                     obj.setTotalprice(totalInPrice);
@@ -83,6 +84,6 @@ public class StockSellService {
 
 
         }
-        return "sold stock successfully";
+        return ResponseEntity.ok("Stock sold");
     }
 }

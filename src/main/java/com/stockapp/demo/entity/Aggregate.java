@@ -6,15 +6,26 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.transaction.Transactional;
 
+import java.util.UUID;
+
 @Entity
 @Transactional
 public class Aggregate {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private UUID id;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     private String ticker;
     private float totalprice;
-    private int quantity;
+    private float quantity;
     private float avgprice;
     private float profit;
 
@@ -34,11 +45,11 @@ public class Aggregate {
         this.avgprice = avgprice;
     }
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 

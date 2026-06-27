@@ -5,34 +5,37 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.util.Date;
+import java.util.UUID;
+
 @Entity
 public class BuyLot {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+//    @GeneratedValue
+    private UUID id;
 
     private String ticker;
 
-    private int originalQuantity;
-    private int remianingQuantity;
+    private float originalQuantity;
+    private float remianingQuantity;
 
     private float unitPrice;
 
-    private String tradeDate;
+    private Date tradeDate;
 
-    public String getTradeDate() {
+    public Date getTradeDate() {
         return tradeDate;
     }
 
-    public void setTradeDate(String tradeDate) {
+    public void setTradeDate(Date tradeDate) {
         this.tradeDate = tradeDate;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -44,19 +47,19 @@ public class BuyLot {
         this.ticker = ticker;
     }
 
-    public int getOriginalQuantity() {
+    public float getOriginalQuantity() {
         return originalQuantity;
     }
 
-    public void setOriginalQuantity(int originalQuantity) {
+    public void setOriginalQuantity(float originalQuantity) {
         this.originalQuantity = originalQuantity;
     }
 
-    public int getRemianingQuantity() {
+    public float getRemianingQuantity() {
         return remianingQuantity;
     }
 
-    public void setRemianingQuantity(int remianingQuantity) {
+    public void setRemianingQuantity(float remianingQuantity) {
         this.remianingQuantity = remianingQuantity;
     }
 

@@ -1,19 +1,21 @@
 package com.stockapp.demo.dto;
 
 
+import java.util.UUID;
+
 public class AnalysisResponse {
-    private long id;
+    private UUID id;
     private String ticker;
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    private int quantity;
+    private float quantity;
     private float avgprice;
     private float profit;
 
@@ -25,11 +27,11 @@ public class AnalysisResponse {
         this.ticker = ticker;
     }
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 

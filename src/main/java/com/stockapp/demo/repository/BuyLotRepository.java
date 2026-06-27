@@ -7,9 +7,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface BuyLotRepository extends JpaRepository<BuyLot, Long> {
+public interface BuyLotRepository extends JpaRepository<BuyLot, UUID> {
 
     @Query("select s from BuyLot s where s.ticker=:ticker order by s.tradeDate")
     List<BuyLot> findStockByNameList(@Param("ticker")String ticker);
