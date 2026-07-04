@@ -16,4 +16,14 @@ public interface TransactionRepository extends JpaRepository<Transactions, UUID>
 
     @Query("Select p from Transactions p where p.ticker=:ticker")
     Transactions findByTicker(@Param("ticker")String ticker);
+
+//    @Query("Select s.quantity from Transactions s where s.ticker=:ticker and s.transactionType=:type order by s.tradeDate")
+//    List<Float> findStocksQuantityByName(@Param("ticker")String ticker, @Param("type")String type);
+//
+//    @Query("Select s.unitPrice from Transactions s where s.ticker=:ticker and s.transactionType=:type order by s.tradeDate")
+//    List<Float> findStocksPriceByName(@Param("ticker")String ticker, @Param("type")String type);
+
+    @Query("select t from Transactions t where t.ticker=:ticker and t.transactionType=:type order by t.tradeDate ")
+    List<Transactions> findTransactionByType(@Param("ticker")String ticker,@Param("type")String type);
+
 }
