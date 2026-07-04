@@ -4,16 +4,6 @@ import java.util.Date;
 import java.util.UUID;
 
 public class CreateTransactionRequest {
-    private String id;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     private Date tradeDate;
     private String ticker;
     private float quantity;
