@@ -3,6 +3,7 @@ package com.stockapp.demo.service;
 import com.stockapp.demo.dto.AnalysisResponse;
 import com.stockapp.demo.entity.Transactions;
 import com.stockapp.demo.repository.TransactionRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

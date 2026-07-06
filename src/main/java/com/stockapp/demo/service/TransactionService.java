@@ -22,7 +22,7 @@ public class TransactionService {
                         .tradeDate(transactions.getTradeDate())
                                 .ticker(transactions.getTicker())
                                         .quantity(transactions.getQuantity())
-                                                .transactionType(transactions.getTransactiontype())
+                                                .transactionType(transactions.getTransactionType())
                                                         .unitPrice(transactions.getUnitPrice())
                                                                 .build();
 

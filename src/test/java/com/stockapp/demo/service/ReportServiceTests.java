@@ -1,10 +1,9 @@
-package com.stockapp.demo.Service;
+package com.stockapp.demo.service;
 
 
 import com.stockapp.demo.dto.AnalysisResponse;
 import com.stockapp.demo.entity.Transactions;
 import com.stockapp.demo.repository.TransactionRepository;
-import com.stockapp.demo.service.ReportService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

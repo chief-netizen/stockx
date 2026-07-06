@@ -1,24 +1,31 @@
 package com.stockapp.demo.dto;
 
-import java.util.Date;
-import java.util.UUID;
+import lombok.*;
 
+import java.util.Date;
+
+@Builder
+@Getter
+@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CreateTransactionRequest {
     private Date tradeDate;
     private String ticker;
     private float quantity;
-    private String transactiontype;
+    private String transactionType;
     private float unitPrice;
 
 
 
 
-    public String getTransactiontype() {
-        return transactiontype;
+    public String getTransactionType() {
+        return transactionType;
     }
 
-    public void setTransactiontype(String transactiontype) {
-        this.transactiontype = transactiontype;
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
     public String getTicker() {

@@ -1,7 +1,6 @@
-package com.stockapp.demo.Repository;
+package com.stockapp.demo.repository;
 
 import com.stockapp.demo.entity.Transactions;
-import com.stockapp.demo.repository.TransactionRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
